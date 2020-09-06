@@ -1,13 +1,15 @@
 name: Sync
 
-on: [ push ]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
         - name: Sync to Gitee
-            uses: xiaoqingdu/xiaoqingdu.github.io@master
+            uses: wearerequired/git-mirror-action@master
             env:
                 # 注意在 Settings->Secrets 配置 GITEE_RSA_PRIVATE_KEY
                 SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
@@ -18,7 +20,7 @@ jobs:
                 destination-repo: "https://gitee.com/xiaoqingdu/xiaoqingdu.git"
 
         - name: Build Gitee Pages
-            uses: xiaoqingdu/xiaoqingdu@master
+            uses: yanglbme/gitee-pages-action@master
             with:
                 # 注意替换为你的 Gitee 用户名
                 gitee-username: xiaoqingdu
