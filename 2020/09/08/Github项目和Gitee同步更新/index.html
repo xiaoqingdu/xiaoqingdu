@@ -20,28 +20,33 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"scrollpercent":true,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="肖庆都的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="前言使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github项目与Gitee同步更新">
+<meta property="og:url" content="http://yoursite.com/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/index.html">
 <meta property="og:site_name" content="肖庆都的博客">
+<meta property="og:description" content="前言使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-08T13:48:52.401Z">
 <meta property="article:author" content="肖庆都">
+<meta property="article:tag" content="Github">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
+    sidebar: "auto",
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>肖庆都的博客</title>
+  <title>Github项目与Gitee同步更新 | 肖庆都的博客</title>
   
 
 
@@ -183,9 +188,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -201,10 +207,9 @@
       <meta itemprop="name" content="肖庆都的博客">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">Github项目与Gitee同步更新</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Github项目与Gitee同步更新
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -233,6 +238,13 @@
               </span>
               <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
             </span>
   
   <span class="post-meta-item">
@@ -272,7 +284,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
 <h3 id="具体操作方法"><a href="#具体操作方法" class="headerlink" title="具体操作方法"></a>具体操作方法</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Sync</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> [ <span class="string">psuh</span> ]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">        <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">        <span class="attr">steps:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Sync</span> <span class="string">to</span> <span class="string">Gitee</span></span><br><span class="line">            <span class="attr">uses:</span> <span class="string">wearerequired/git-mirror-action@master</span> <span class="comment"># 这个地方不需要修改</span></span><br><span class="line">            <span class="attr">env:</span></span><br><span class="line">                <span class="comment"># 注意在 Settings-&gt;Secrets 配置 GITEE_RSA_PRIVATE_KEY</span></span><br><span class="line">                <span class="attr">SSH_PRIVATE_KEY:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITEE_RSA_PRIVATE_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">            <span class="attr">with:</span></span><br><span class="line">                <span class="comment"># 注意替换为你的 GitHub 源仓库地址</span></span><br><span class="line">                <span class="attr">source-repo:</span> <span class="string">&quot;git@github.com:XXGGG/xxggg.github.io.git&quot;</span></span><br><span class="line">                <span class="comment"># 注意替换为你的 Gitee 目标仓库地址</span></span><br><span class="line">                <span class="attr">destination-repo:</span> <span class="string">&quot;git@gitee.com:XXGGG/XXGGG.git&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">Gitee</span> <span class="string">Pages</span></span><br><span class="line">            <span class="attr">uses:</span> <span class="string">yanglbme/gitee-pages-action@master</span> <span class="comment"># 这个地方不需要修改</span></span><br><span class="line">            <span class="attr">with:</span></span><br><span class="line">                <span class="comment"># 注意替换为你的 Gitee 用户名</span></span><br><span class="line">                <span class="attr">gitee-username:</span> <span class="string">XXGGG</span></span><br><span class="line">                <span class="comment"># 注意在 Settings-&gt;Secrets 配置 GITEE_PASSWORD</span></span><br><span class="line">                <span class="attr">gitee-password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITEE_PASSWORD</span> <span class="string">&#125;&#125;</span></span><br><span class="line">                <span class="comment"># 注意替换为你的 Gitee 仓库</span></span><br><span class="line">                <span class="attr">gitee-repo:</span> <span class="string">XXGGG/XXGGG</span></span><br></pre></td></tr></table></figure>
 
 <p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color='HotPink'>settings<code>-&gt;</code>secrets</font><code> 里的</code><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color='HotPink'>GITEE_PASSWORD</font></p>
@@ -303,249 +315,69 @@
 </blockquote>
 <h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color='HotPink'><code>Actions</code></font>中查看执行结果。</p>
 
-      
     </div>
     <div>
         
+            <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------Thanks for your attention-------------</div>
+    
+</div>
+        
     </div>
 
     
     
     
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="肖庆都 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="肖庆都 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/Github/" rel="tag"># Github</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" rel="prev" title="Python colletions模块详细介绍">
+      <i class="fa fa-chevron-left"></i> Python colletions模块详细介绍
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpeg">
-      <meta itemprop="name" content="肖庆都">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="肖庆都的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">Python colletions模块详细介绍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-09-06 09:48:26 / 修改时间：10:15:01" itemprop="dateCreated datePublished" datetime="2020-09-06T09:48:26+08:00">2020-09-06</time>
-            </span>
-
-          
-            <span id="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" class="post-meta-item leancloud_visitors" data-flag-title="Python colletions模块详细介绍" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>8.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一、模块详细介绍"><a href="#一、模块详细介绍" class="headerlink" title="一、模块详细介绍"></a>一、模块详细介绍</h3><blockquote>
-<p>collections 包含了一些特殊的容器，针对Python内置的容器，例如：list、dict、set和tuple，提供了另外一种选择</p>
-<p>namedtuple：可以创建包含名称的tuple；<br>deque：类似于list的容器，可以快速的在队列头部和尾部添加、删除元素；<br>Counter，dict的子类，计算可hash的对象；<br>OrderedDict，dict的子类，可以记住元素的添加顺序；<br>defaultdict，dict的子类，可以调用提供默认值的函数；</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    <div>
-        
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.jpeg">
-      <meta itemprop="name" content="肖庆都">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="肖庆都的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">leetcode 刷题总结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-04 22:33:19" itemprop="dateCreated datePublished" datetime="2020-09-04T22:33:19+08:00">2020-09-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-08 18:09:00" itemprop="dateModified" datetime="2020-09-08T18:09:00+08:00">2020-09-08</time>
-              </span>
-
-          
-            <span id="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" class="post-meta-item leancloud_visitors" data-flag-title="leetcode 刷题总结" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="leetcode-刷题总结"><a href="#leetcode-刷题总结" class="headerlink" title="leetcode 刷题总结"></a>leetcode 刷题总结</h2><blockquote>
-<p>题目描述<br>给定一个二叉树，返回所有从根节点到叶子节点的路径。<br><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    <div>
-        
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -592,6 +424,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">具体操作方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E7%A7%81%E9%92%A5%E5%85%AC%E9%92%A5"><span class="nav-number">3.</span> <span class="nav-text">如何获得私钥公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E7%94%9F%E6%88%90SSH-Key"><span class="nav-number">4.</span> <span class="nav-text">第一步  生成SSH Key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E5%B0%86%E5%85%AC%E9%92%A5%E6%B7%BB%E5%8A%A0%E5%88%B0Github%E5%92%8CGitee%E4%B8%AD"><span class="nav-number">5.</span> <span class="nav-text">第二步 将公钥添加到Github和Gitee中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E6%B5%8B%E8%AF%95%E6%98%AF%E5%90%A6%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F"><span class="nav-number">6.</span> <span class="nav-text">第三步测试是否配置成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E9%85%8D%E7%BD%AE%E7%A7%81%E9%92%A5"><span class="nav-number">7.</span> <span class="nav-text">第四步 配置私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">8.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
