@@ -20,15 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"scrollpercent":true,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="肖庆都的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2020/09/index.html">
+  <meta name="description" content="子集给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集） 说明：解集不能包含重复的子集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="求解子集">
+<meta property="og:url" content="http://yoursite.com/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/index.html">
 <meta property="og:site_name" content="肖庆都的博客">
+<meta property="og:description" content="子集给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集） 说明：解集不能包含重复的子集">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-23T15:51:54.997Z">
 <meta property="article:author" content="肖庆都">
+<meta property="article:tag" content="&lt;font size&#x3D;&quot;6&quot;&gt;每日一题&lt;&#x2F;font&gt;">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2020/09/">
+<link rel="canonical" href="http://yoursite.com/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
 
 
 <script id="page-configurations">
@@ -36,12 +41,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | 肖庆都的博客</title>
+  <title>求解子集 | 肖庆都的博客</title>
   
 
 
@@ -183,136 +188,188 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpeg">
+      <meta itemprop="name" content="肖庆都">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="肖庆都的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          求解子集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-09-20T00:00:00+08:00">2020-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-23 23:51:54" itemprop="dateModified" datetime="2020-09-23T23:51:54+08:00">2020-09-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">每日一题</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" class="post-meta-item leancloud_visitors" data-flag-title="求解子集" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 5 篇日志。 继续努力。</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>457</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
+        <h2 id="子集"><a href="#子集" class="headerlink" title="子集"></a>子集</h2><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）</p>
+<p><strong>说明：</strong>解集不能包含重复的子集</p>
+<a id="more"></a>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<p>示例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-23T00:00:00+08:00"
-              content="2020-09-23">
-          09-23
-        </time>
-      </div>
+<p>迭代</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = [[]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            res = res + [[i] + num <span class="keyword">for</span> num <span class="keyword">in</span> res]</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/23/%E5%9B%BD%E4%BA%A7OS%E8%BF%9C%E7%A8%8Bwindows/" itemprop="url">
-            <span itemprop="name">国产OS远程windows</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-20T00:00:00+08:00"
-              content="2020-09-20">
-          09-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" itemprop="url">
-            <span itemprop="name">求解子集</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-08T00:00:00+08:00"
-              content="2020-09-08">
-          09-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/" itemprop="url">
-            <span itemprop="name">Github项目与Gitee同步更新</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-06T09:48:26+08:00"
-              content="2020-09-06">
-          09-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/06/Python-colletions%E6%A8%A1%E5%9D%97%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/" itemprop="url">
-            <span itemprop="name">Python colletions模块详细介绍</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-04T22:33:19+08:00"
-              content="2020-09-04">
-          09-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" itemprop="url">
-            <span itemprop="name">leetcode 刷题总结</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+<p>递归（回溯）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = []</span><br><span class="line">        n = len(nums)</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">helper</span>(<span class="params">i, tmp</span>):</span></span><br><span class="line">            res.append(tmp)</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i, n):</span><br><span class="line">                helper(j + <span class="number">1</span>,tmp + [nums[j]] )</span><br><span class="line">        helper(<span class="number">0</span>, [])</span><br><span class="line">        <span class="keyword">return</span> res  </span><br></pre></td></tr></table></figure>
 
 
     </div>
+    <div>
+        
+            <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------Thanks for your attention-------------</div>
+    
+</div>
+        
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="肖庆都 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="肖庆都 支付宝">
+        <p>支付宝</p>
+      </div>
+
   </div>
-  
-  
-  
+</div>
 
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/font-size-6-%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-font/" rel="tag"># <font size="6">每日一题</font></a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/" rel="prev" title="Github项目与Gitee同步更新">
+      <i class="fa fa-chevron-left"></i> Github项目与Gitee同步更新
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/23/%E5%9B%BD%E4%BA%A7OS%E8%BF%9C%E7%A8%8Bwindows/" rel="next" title="国产OS远程windows">
+      国产OS远程windows <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -359,6 +416,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">子集</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
