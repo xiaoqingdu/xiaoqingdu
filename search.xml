@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Morris算法进行二叉树遍历</title>
+    <url>/2020/09/24/Morris%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</url>
+    <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>二叉树作为计算机中的一个重要的数据结构，在很多领域都会涉及到，而提到二叉树，我们首先想到的就是其3种遍历方式–前序、中序和后序，对于这三种遍历方式，我们很容易通过使用递归或者迭代（<a href="http://blog.csdn.net/yangfeisc/article/details/44497429%EF%BC%89%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%EF%BC%8C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%BAO(N)%E3%80%82%E4%BD%86%E6%98%AF%E8%BF%99%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E9%83%BD%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A0%86%E6%A0%88%E8%BF%9B%E8%A1%8C%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AD%98%E5%82%A8%EF%BC%8C%E5%8D%B3%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B9%9F%E6%98%AFO(N)%E3%80%82">http://blog.csdn.net/yangfeisc/article/details/44497429）的方式实现，时间复杂度为O(N)。但是这两种实现方式都需要使用堆栈进行节点信息的存储，即空间复杂度也是O(N)。</a></p>
+<a id="more"></a>
+
+<p>但是还有一种更为巧妙的遍历方法，Morris算法，该算法的时间复杂度也是O(N)，但是空间复杂度却能达到最优的O(1)</p>
+<p>树的节点定义如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><h4 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h4><ol>
+<li>当前节点不为空的前提下，将当前节点设置为：cur_node<ol>
+<li>cur_node的左节点left_node存在，找到cur_node节点的左子树的最右叶子节点right_node。</li>
+<li>最右叶子节点right_node的右节点为空的情况下，right_node的右节点指向cur_node，当前节点指向左节点。</li>
+<li>cur_node的左节点left_node不存在，当前cur_node指向当前节点的右节点。</li>
+<li>如果当前节点cur_node存在左节点，并且左节点的右节点是当前节点cur_node，将当前节点的右节点置为None，当前节点指向右节点。</li>
+</ol>
+</li>
+</ol>
+<p>具体实现方式如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMode</span>(<span class="params">self, root:TreeNode</span>) -&gt; List[int]:</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        cur = root</span><br><span class="line">        <span class="keyword">while</span> cur:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> cur.left:</span><br><span class="line">                res.append(cur.val)</span><br><span class="line">                cur = cur.right</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                temp = cur.left</span><br><span class="line">                <span class="keyword">while</span> temp.right <span class="keyword">and</span> <span class="keyword">not</span> temp.right == cur:</span><br><span class="line">                    temp = temp.right</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> temp.right:</span><br><span class="line">                    temp.right = cur</span><br><span class="line">                    cur = cur.left</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    res.append(cur.val)</span><br><span class="line">                    temp.right = <span class="literal">None</span></span><br><span class="line">                    cur = cur.right</span><br><span class="line">      	<span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Github项目与Gitee同步更新</title>
+    <url>/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
+<a id="more"></a>
+
+<h3 id="具体操作方法"><a href="#具体操作方法" class="headerlink" title="具体操作方法"></a>具体操作方法</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">name: Sync</span><br><span class="line"></span><br><span class="line">on: [ psuh ]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">    build:</span><br><span class="line">        runs-on: ubuntu-latest</span><br><span class="line">        steps:</span><br><span class="line">        - name: Sync to Gitee</span><br><span class="line">            uses: wearerequired/git-mirror-action@master # 这个地方不需要修改</span><br><span class="line">            env:</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_RSA_PRIVATE_KEY</span><br><span class="line">                SSH_PRIVATE_KEY: $&#123;&#123; secrets.GITEE_RSA_PRIVATE_KEY &#125;&#125;</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 GitHub 源仓库地址</span><br><span class="line">                source-repo: &quot;git@github.com:XXGGG/xxggg.github.io.git&quot;</span><br><span class="line">                # 注意替换为你的 Gitee 目标仓库地址</span><br><span class="line">                destination-repo: &quot;git@gitee.com:XXGGG/XXGGG.git&quot;</span><br><span class="line"></span><br><span class="line">        - name: Build Gitee Pages</span><br><span class="line">            uses: yanglbme/gitee-pages-action@master # 这个地方不需要修改</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 Gitee 用户名</span><br><span class="line">                gitee-username: XXGGG</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_PASSWORD</span><br><span class="line">                gitee-password: $&#123;&#123; secrets.GITEE_PASSWORD &#125;&#125;</span><br><span class="line">                # 注意替换为你的 Gitee 仓库</span><br><span class="line">                gitee-repo: XXGGG/XXGGG</span><br></pre></td></tr></table></figure>
+
+<p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color='HotPink'>settings<code>-&gt;</code>secrets</font><code> 里的</code><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color='HotPink'>GITEE_PASSWORD</font></p>
+<ul>
+<li><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>  是私钥</li>
+<li><font color='HotPink'>GITEE_PASSWORD</font> 是你Gitee的账户密码</li>
+</ul>
+<p><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>,<font color='HotPink'>GITEE_PASSWORD</font> 这两个关键字需要在Github项目的<font color='HotPink'>Setting-&gt;Secrets</font>中增加两个这样的关键字，并赋值。</p>
+<h3 id="如何获得私钥公钥"><a href="#如何获得私钥公钥" class="headerlink" title="如何获得私钥公钥"></a>如何获得私钥公钥</h3><blockquote>
+<p>参考文章<br><a href="https://blog.csdn.net/fenghuibian/article/details/73350890">https://blog.csdn.net/fenghuibian/article/details/73350890</a><br><a href="https://gitee.com/help/articles/4181#article-header0">https://gitee.com/help/articles/4181#article-header0</a></p>
+</blockquote>
+<h3 id="第一步-生成SSH-Key"><a href="#第一步-生成SSH-Key" class="headerlink" title="第一步  生成SSH Key"></a>第一步  生成SSH Key</h3><p>打开GitBash （windows 下载git后自带）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;</span><br><span class="line">//(xxxx@xxxx.com 为你的邮箱)</span><br></pre></td></tr></table></figure>
+
+<p>按照提示完成三次回车，即可生成 ssh key。<br>通过查看 ~/.ssh/id_rsa.pub 文件内容，获取到你的公钥，找到id_res.pub这个文件.</p>
+<h3 id="第二步-将公钥添加到Github和Gitee中"><a href="#第二步-将公钥添加到Github和Gitee中" class="headerlink" title="第二步 将公钥添加到Github和Gitee中"></a>第二步 将公钥添加到Github和Gitee中</h3><p>浏览器登上GitHub然后在<font color='HotPink'>settings<code>-&gt;</code>SSH and GPG keys</font>里添加上公钥（码云gitee同理）</p>
+<h3 id="第三步测试是否配置成功"><a href="#第三步测试是否配置成功" class="headerlink" title="第三步测试是否配置成功"></a>第三步测试是否配置成功</h3><p>打开Gitbash。测试Github是否可用</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>测试Gitee</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
+
+<p>若返回 Hi XXX! You’ve successfully authenticated, but (Gitee.com/GitHub.com) does not provide shell access. 内容，则证明添加成功。</p>
+<h3 id="第四步-配置私钥"><a href="#第四步-配置私钥" class="headerlink" title="第四步 配置私钥"></a>第四步 配置私钥</h3><p>在 ~/.ssh目录下有*<strong>id_rsa*** 和*</strong>id_rsa.pub*<strong>两个文件<br>**<em>id_rsa.pub</em></strong>是公钥<br>**<em>id_rsa**</em> 是私钥</p>
+<p>查看私钥 然后把私钥添加到GitHub项目里的<font color='HotPink'><code>settings</code>-&gt;<code>secrets</code></font> 里的<font color='HotPink'><code>GITEE_RSA_PRIVATE_KEY</code></font></p>
+<blockquote>
+<p>注意：全部都要复制，开头和结尾注意勿遗漏</p>
+</blockquote>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color='HotPink'><code>Actions</code></font>中查看执行结果。</p>
+<blockquote>
+<p>感谢 <a href="https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app">https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>折腾记录</category>
+      </categories>
+      <tags>
+        <tag>&lt;font size=&quot;6&quot;&gt;Github&lt;/font&gt;</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode 刷题总结</title>
     <url>/2020/09/04/leetcode%20%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="leetcode-刷题总结"><a href="#leetcode-刷题总结" class="headerlink" title="leetcode 刷题总结"></a>leetcode 刷题总结</h2><blockquote>
@@ -20,6 +96,58 @@
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">binaryTreePaths</span>(<span class="params">self, root: TreeNode</span>) -&gt; List[str]:</span></span><br><span class="line">        paths = []</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> paths</span><br><span class="line">       	nodedeq = collections.deque([root])</span><br><span class="line">        pathdeq = collections.deque([str(root.val)])</span><br><span class="line">        <span class="keyword">while</span> nodedeq:</span><br><span class="line">            node = nodedeq.popleft()</span><br><span class="line">            path = pathdeq.popleft()</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> node.left <span class="keyword">and</span> <span class="keyword">not</span> node.right:</span><br><span class="line">                paths.append(path)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> node.left:</span><br><span class="line">                    nodedeq.append(node.left)</span><br><span class="line">                    pathdeq.append(path + <span class="string">&#x27;-&gt;&#x27;</span> + str(node.left.val))</span><br><span class="line">                <span class="keyword">if</span> node.right:</span><br><span class="line">                    nodedeq.append(node.right)</span><br><span class="line">                    pathdeq.append(path + <span class="string">&#x27;-&gt;&#x27;</span> + str(node.right.val))</span><br><span class="line">     	<span class="keyword">return</span> paths</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>国产OS远程windows</title>
+    <url>/2020/09/23/%E5%9B%BD%E4%BA%A7OS%E8%BF%9C%E7%A8%8Bwindows/</url>
+    <content><![CDATA[<h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p>目前国产OS，常用的两大版本为：麒麟OS，统信UOS。这两种类型OS均适配了相应的国产CPU，例如龙芯，飞腾。受限于OS目前可支持的软件较少，以及常用的办公系统是windows，此时就存在一个问题就是：如何在国产OS中，远程到windows中。本文介绍一种方式，针对不同的CPU的操作方式，实现国产OS，远程到windows中。</p>
+<a id="more"></a>
+
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><code>rdesktop</code> 是一个在 Unix/Linux 下访问 Windows 远程桌面的客户端程序。当前，<code>rdesktop</code> 所支持的 Windows 系列版本包括 NT、2000、XP 和 2003。通过使用 <code>rdesktop</code> 所实现的远程桌面协议（RDP），你可以在 Unix/Linux 系统中呈现 Windows 桌面，并进行相应的操作。<code>rdesktop</code>的开源网站：<a href="http://www.rdesktop.org/">http://www.rdesktop.org/</a></p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>国产CPU目前主要有龙芯、申威、飞腾、众志、兆芯、海思、展讯等CPU，本文介绍麒麟OS在龙芯，飞腾这两种类型的CPU情况下<code>rdesktop</code>安装。飞腾CPU采用的是ARM架构，此处采用的麒麟OS使用的是Ubuntu16的内核，便可以从Ubuntu软件包下载网站中直接下载相应的包直接安装。具体的操作如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. 执行：wget http://ports.ubuntu.com/pool/universe/r/rdesktop/rdesktop_1.8.3-1_arm64.deb 下载对应的deb包</span><br><span class="line">2. 安装对应的deb包，dpkg –i rdesktop_1.8.3-1_arm64.deb</span><br><span class="line">3. 无报错，即为安装成功。</span><br></pre></td></tr></table></figure>
+
+<p>如果系统中缺少部分库，可在<a href="https://pkgs.org/">https://pkgs.org/</a> 该网址下查找对应的依赖库。</p>
+<p>龙芯CPU采用的mips架构，目前类型CPU使用较少，很多已有的包无法在进行。由于龙芯CPU使用的mips指令集，那么需要使用mips64el的安装包，需要获取rdesktop源码进行编译并安装。同时可能需要安装一些库。libxrender，libxcursor</p>
+<p>库的源码获取可以自行百度获取。rdesktop的源码同样可获得，或者通过：<a href="http://ports.ubuntu.com/pool/universe/r/rdesktop/">http://ports.ubuntu.com/pool/universe/r/rdesktop/</a> 该网址进行查找对应的源码。将压缩包拷贝到系统中，解压后，按照如下操作，将rdesktop重新编译</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd rdesktop-1.9.0/</span><br><span class="line">./configure --disable-credssp --disable-smartcard</span><br><span class="line">make   </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>安装完毕后，直接执行rdesktop -f IP 即可全屏远程到windows中。退出全屏可同时按ctrl + alt + enter（确保远程设置中的允许被指定用户访问的选项未被勾选）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-d: 域</span><br><span class="line">-s: shell命令 (登录运行命令之后就退出)</span><br><span class="line">-c: 工作目录（应该是-s的子命令），-s shell命令的一个参数</span><br><span class="line">-p: password (- to prompt)</span><br><span class="line">-n: 客户端（本地）主机名，默认为本地主机名</span><br><span class="line">-k: 服务器上的键盘布局选择 (en-us, de, sv, etc.)</span><br><span class="line">-g: 桌面分辨率（宽x高）</span><br><span class="line">-i: enables smartcard authentication, password is used as pin</span><br><span class="line">-f: 全屏模式（Ctrl + Alt + Enter 退出全屏模式）</span><br><span class="line">-b: 强制位图刷新（没发现什么用）</span><br><span class="line">-L: 本地编码</span><br><span class="line">-A: 无缝虚拟应用程序到本地</span><br><span class="line">-B: use BackingStore of X-server (if available)</span><br><span class="line">-e: disable encryption (French TS) 禁用加密</span><br><span class="line">-E: disable encryption from client to server 从客户端到服务器，禁用加密。</span><br><span class="line">-m: 不允许拖动（不传递鼠标的拖动事件）</span><br><span class="line">-C: use private colour map</span><br><span class="line">-D: 不显示窗口标题栏（只有远程桌面窗口，没有关闭和最小化按钮）</span><br><span class="line">-K: 窗口切换快捷热键（Alt+Tab）不传递到远程桌面</span><br><span class="line">-S: 标题按钮的大小，个人觉得这个参数很无用，或者我还没弄明白到底什么意思。</span><br><span class="line">-T: 窗口标题</span><br><span class="line">-t: disable use of remote ctrl</span><br><span class="line">-N: 数字键盘同步</span><br><span class="line">-X: 给定另一个窗口的标识，嵌入到另一个窗口</span><br><span class="line">-a: connection colour depth 选择颜色深度</span><br><span class="line">-z: 启用rdp压缩</span><br><span class="line">-x: RDP5 experience (m[odem 28.8], b[roadband], l[an] or hex nr.)</span><br><span class="line">-P: 持久位图缓存</span><br><span class="line">-r: 设备重定向（参数可以重复使用）注：如windows下的mstsc开启串行口、本地磁盘、打印机等</span><br><span class="line">-r comport:COM1=/dev/ttyS0: enable serial redirection of /dev/ttyS0 to COM1 把Linux上的ttyS0映射到远程windows的COM1口</span><br><span class="line">or COM1=/dev/ttyS0,COM2=/dev/ttyS1</span><br><span class="line">-r disk:floppy=/mnt/floppy: enable redirection of /mnt/floppy to &#x27;floppy&#x27; share</span><br><span class="line">-r floppy=/mnt/floppy,cdrom=/mnt/cdrom  把本地的/mnt/floppy文件夹挂载到远程连接的floppy,/mnt/cdrom文件夹挂在到远程桌面的cdrom</span><br><span class="line">-r clientname= 设置本地设备的客户端名称</span><br><span class="line">for redirected disks</span><br><span class="line">-r lptport:LPT1=/dev/lp0: enable parallel redirection of /dev/lp0 to LPT1</span><br><span class="line">or LPT1=/dev/lp0,LPT2=/dev/lp1</span><br><span class="line">-r printer:mydeskjet: enable printer redirection</span><br><span class="line">or mydeskjet=”HP LaserJet IIIP” to enter server driver as well</span><br><span class="line">-r sound：[local[:driver[:device]]|off|remote]: 远程计算机的声音带到本地</span><br><span class="line">available drivers for ‘local’:</span><br><span class="line">alsa: ALSA output driver, default device: default</span><br><span class="line">-r clipboard:[off|PRIMARYCLIPBOARD|CLIPBOARD]: 剪贴板的配置</span><br><span class="line">redirection.</span><br><span class="line">&#x27;PRIMARYCLIPBOARD&#x27; 在本地和远程桌面共享剪贴板</span><br><span class="line">when sending data to server.</span><br><span class="line">‘CLIPBOARD’ looks at only CLIPBOARD.</span><br><span class="line">以下的不是很常用</span><br><span class="line">-r scard[:”Scard Name”=”Alias Name[;Vendor Name]”[,…]]</span><br><span class="line">example: -r scard:”eToken PRO 00 00”=”AKS ifdh 0”</span><br><span class="line">“eToken PRO 00 00” -&gt; Device in Linux/Unix enviroment</span><br><span class="line">“AKS ifdh 0” -&gt; Device shown in Windows enviroment</span><br><span class="line">example: -r scard:”eToken PRO 00 00”=”AKS ifdh 0;AKS”</span><br><span class="line">“eToken PRO 00 00” -&gt; Device in Linux/Unix enviroment</span><br><span class="line">“AKS ifdh 0” -&gt; Device shown in Windows enviroment</span><br><span class="line">“AKS” -&gt; Device vendor name</span><br><span class="line">-0: attach to console 连接到控制台</span><br><span class="line">-4: use RDP version 4 使用RDP 4的版本</span><br><span class="line">-5: use RDP version 5 (default) 默认使用RDP 5的版本</span><br><span class="line">-o: name=value: Adds an additional option to rdesktop.</span><br><span class="line">sc-csp-name Specifies the Crypto Service Provider name which</span><br><span class="line">is used to authenticate the user by smartcard</span><br><span class="line">sc-container-name Specifies the container name, this is usally the username</span><br><span class="line">sc-reader-name Smartcard reader name to use</span><br><span class="line">sc-card-name Specifies the card name of the smartcard to use</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用功能小结及部分参数用法举例"><a href="#常用功能小结及部分参数用法举例" class="headerlink" title="常用功能小结及部分参数用法举例"></a>常用功能小结及部分参数用法举例</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-g: 桌面分辨率（宽x高）</span><br><span class="line">-f: 全屏模式（Ctrl + Alt + Enter 退出全屏模式）</span><br><span class="line">-D: 不显示窗口标题栏（只有远程桌面窗口，没有关闭和最小化按钮）</span><br><span class="line">-T: 窗口标题</span><br><span class="line">-r: 设备重定向</span><br><span class="line">-A: 无缝虚拟应用程序到本地</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>国产OS</category>
+      </categories>
+      <tags>
+        <tag>&lt;font size=&quot;6&quot;&gt;Linux&lt;/font&gt;</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>求解子集</title>
+    <url>/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="子集"><a href="#子集" class="headerlink" title="子集"></a>子集</h2><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）</p>
+<p><strong>说明：</strong>解集不能包含重复的子集</p>
+<a id="more"></a>
+
+<p>示例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">输入: nums = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>迭代</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = [[]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            res = res + [[i] + num <span class="keyword">for</span> num <span class="keyword">in</span> res]</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<p>递归（回溯）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = []</span><br><span class="line">        n = len(nums)</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">helper</span>(<span class="params">i, tmp</span>):</span></span><br><span class="line">            res.append(tmp)</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i, n):</span><br><span class="line">                helper(j + <span class="number">1</span>,tmp + [nums[j]] )</span><br><span class="line">        helper(<span class="number">0</span>, [])</span><br><span class="line">        <span class="keyword">return</span> res  </span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
+      </tags>
   </entry>
   <entry>
     <title>Python colletions模块详细介绍</title>
@@ -109,134 +237,6 @@
 ]]></content>
       <tags>
         <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Github项目与Gitee同步更新</title>
-    <url>/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
-<a id="more"></a>
-
-<h3 id="具体操作方法"><a href="#具体操作方法" class="headerlink" title="具体操作方法"></a>具体操作方法</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">name: Sync</span><br><span class="line"></span><br><span class="line">on: [ psuh ]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">    build:</span><br><span class="line">        runs-on: ubuntu-latest</span><br><span class="line">        steps:</span><br><span class="line">        - name: Sync to Gitee</span><br><span class="line">            uses: wearerequired/git-mirror-action@master # 这个地方不需要修改</span><br><span class="line">            env:</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_RSA_PRIVATE_KEY</span><br><span class="line">                SSH_PRIVATE_KEY: $&#123;&#123; secrets.GITEE_RSA_PRIVATE_KEY &#125;&#125;</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 GitHub 源仓库地址</span><br><span class="line">                source-repo: &quot;git@github.com:XXGGG/xxggg.github.io.git&quot;</span><br><span class="line">                # 注意替换为你的 Gitee 目标仓库地址</span><br><span class="line">                destination-repo: &quot;git@gitee.com:XXGGG/XXGGG.git&quot;</span><br><span class="line"></span><br><span class="line">        - name: Build Gitee Pages</span><br><span class="line">            uses: yanglbme/gitee-pages-action@master # 这个地方不需要修改</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 Gitee 用户名</span><br><span class="line">                gitee-username: XXGGG</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_PASSWORD</span><br><span class="line">                gitee-password: $&#123;&#123; secrets.GITEE_PASSWORD &#125;&#125;</span><br><span class="line">                # 注意替换为你的 Gitee 仓库</span><br><span class="line">                gitee-repo: XXGGG/XXGGG</span><br></pre></td></tr></table></figure>
-
-<p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color='HotPink'>settings<code>-&gt;</code>secrets</font><code> 里的</code><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color='HotPink'>GITEE_PASSWORD</font></p>
-<ul>
-<li><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>  是私钥</li>
-<li><font color='HotPink'>GITEE_PASSWORD</font> 是你Gitee的账户密码</li>
-</ul>
-<p><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>,<font color='HotPink'>GITEE_PASSWORD</font> 这两个关键字需要在Github项目的<font color='HotPink'>Setting-&gt;Secrets</font>中增加两个这样的关键字，并赋值。</p>
-<h3 id="如何获得私钥公钥"><a href="#如何获得私钥公钥" class="headerlink" title="如何获得私钥公钥"></a>如何获得私钥公钥</h3><blockquote>
-<p>参考文章<br><a href="https://blog.csdn.net/fenghuibian/article/details/73350890">https://blog.csdn.net/fenghuibian/article/details/73350890</a><br><a href="https://gitee.com/help/articles/4181#article-header0">https://gitee.com/help/articles/4181#article-header0</a></p>
-</blockquote>
-<h3 id="第一步-生成SSH-Key"><a href="#第一步-生成SSH-Key" class="headerlink" title="第一步  生成SSH Key"></a>第一步  生成SSH Key</h3><p>打开GitBash （windows 下载git后自带）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;</span><br><span class="line">//(xxxx@xxxx.com 为你的邮箱)</span><br></pre></td></tr></table></figure>
-
-<p>按照提示完成三次回车，即可生成 ssh key。<br>通过查看 ~/.ssh/id_rsa.pub 文件内容，获取到你的公钥，找到id_res.pub这个文件.</p>
-<h3 id="第二步-将公钥添加到Github和Gitee中"><a href="#第二步-将公钥添加到Github和Gitee中" class="headerlink" title="第二步 将公钥添加到Github和Gitee中"></a>第二步 将公钥添加到Github和Gitee中</h3><p>浏览器登上GitHub然后在<font color='HotPink'>settings<code>-&gt;</code>SSH and GPG keys</font>里添加上公钥（码云gitee同理）</p>
-<h3 id="第三步测试是否配置成功"><a href="#第三步测试是否配置成功" class="headerlink" title="第三步测试是否配置成功"></a>第三步测试是否配置成功</h3><p>打开Gitbash。测试Github是否可用</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>测试Gitee</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-
-<p>若返回 Hi XXX! You’ve successfully authenticated, but (Gitee.com/GitHub.com) does not provide shell access. 内容，则证明添加成功。</p>
-<h3 id="第四步-配置私钥"><a href="#第四步-配置私钥" class="headerlink" title="第四步 配置私钥"></a>第四步 配置私钥</h3><p>在 ~/.ssh目录下有*<strong>id_rsa*** 和*</strong>id_rsa.pub*<strong>两个文件<br>**<em>id_rsa.pub</em></strong>是公钥<br>**<em>id_rsa**</em> 是私钥</p>
-<p>查看私钥 然后把私钥添加到GitHub项目里的<font color='HotPink'><code>settings</code>-&gt;<code>secrets</code></font> 里的<font color='HotPink'><code>GITEE_RSA_PRIVATE_KEY</code></font></p>
-<blockquote>
-<p>注意：全部都要复制，开头和结尾注意勿遗漏</p>
-</blockquote>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color='HotPink'><code>Actions</code></font>中查看执行结果。</p>
-<blockquote>
-<p>感谢 <a href="https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app">https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>折腾记录</category>
-      </categories>
-      <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;Github&lt;/font&gt;</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>国产OS远程windows</title>
-    <url>/2020/09/23/%E5%9B%BD%E4%BA%A7OS%E8%BF%9C%E7%A8%8Bwindows/</url>
-    <content><![CDATA[<h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p>目前国产OS，常用的两大版本为：麒麟OS，统信UOS。这两种类型OS均适配了相应的国产CPU，例如龙芯，飞腾。受限于OS目前可支持的软件较少，以及常用的办公系统是windows，此时就存在一个问题就是：如何在国产OS中，远程到windows中。本文介绍一种方式，针对不同的CPU的操作方式，实现国产OS，远程到windows中。</p>
-<a id="more"></a>
-
-<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p><code>rdesktop</code> 是一个在 Unix/Linux 下访问 Windows 远程桌面的客户端程序。当前，<code>rdesktop</code> 所支持的 Windows 系列版本包括 NT、2000、XP 和 2003。通过使用 <code>rdesktop</code> 所实现的远程桌面协议（RDP），你可以在 Unix/Linux 系统中呈现 Windows 桌面，并进行相应的操作。<code>rdesktop</code>的开源网站：<a href="http://www.rdesktop.org/">http://www.rdesktop.org/</a></p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>国产CPU目前主要有龙芯、申威、飞腾、众志、兆芯、海思、展讯等CPU，本文介绍麒麟OS在龙芯，飞腾这两种类型的CPU情况下<code>rdesktop</code>安装。飞腾CPU采用的是ARM架构，此处采用的麒麟OS使用的是Ubuntu16的内核，便可以从Ubuntu软件包下载网站中直接下载相应的包直接安装。具体的操作如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">1. 执行：wget http://ports.ubuntu.com/pool/universe/r/rdesktop/rdesktop_1.8.3-1_arm64.deb 下载对应的deb包</span><br><span class="line">2. 安装对应的deb包，dpkg –i rdesktop_1.8.3-1_arm64.deb</span><br><span class="line">3. 无报错，即为安装成功。</span><br></pre></td></tr></table></figure>
-
-<p>如果系统中缺少部分库，可在<a href="https://pkgs.org/">https://pkgs.org/</a> 该网址下查找对应的依赖库。</p>
-<p>龙芯CPU采用的mips架构，目前类型CPU使用较少，很多已有的包无法在进行。由于龙芯CPU使用的mips指令集，那么需要使用mips64el的安装包，需要获取rdesktop源码进行编译并安装。同时可能需要安装一些库。libxrender，libxcursor</p>
-<p>库的源码获取可以自行百度获取。rdesktop的源码同样可获得，或者通过：<a href="http://ports.ubuntu.com/pool/universe/r/rdesktop/">http://ports.ubuntu.com/pool/universe/r/rdesktop/</a> 该网址进行查找对应的源码。将压缩包拷贝到系统中，解压后，按照如下操作，将rdesktop重新编译</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd rdesktop-1.9.0/</span><br><span class="line">./configure --disable-credssp --disable-smartcard</span><br><span class="line">make   </span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-
-<p>安装完毕后，直接执行rdesktop -f IP 即可全屏远程到windows中。退出全屏可同时按ctrl + alt + enter（确保远程设置中的允许被指定用户访问的选项未被勾选）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-d: 域</span><br><span class="line">-s: shell命令 (登录运行命令之后就退出)</span><br><span class="line">-c: 工作目录（应该是-s的子命令），-s shell命令的一个参数</span><br><span class="line">-p: password (- to prompt)</span><br><span class="line">-n: 客户端（本地）主机名，默认为本地主机名</span><br><span class="line">-k: 服务器上的键盘布局选择 (en-us, de, sv, etc.)</span><br><span class="line">-g: 桌面分辨率（宽x高）</span><br><span class="line">-i: enables smartcard authentication, password is used as pin</span><br><span class="line">-f: 全屏模式（Ctrl + Alt + Enter 退出全屏模式）</span><br><span class="line">-b: 强制位图刷新（没发现什么用）</span><br><span class="line">-L: 本地编码</span><br><span class="line">-A: 无缝虚拟应用程序到本地</span><br><span class="line">-B: use BackingStore of X-server (if available)</span><br><span class="line">-e: disable encryption (French TS) 禁用加密</span><br><span class="line">-E: disable encryption from client to server 从客户端到服务器，禁用加密。</span><br><span class="line">-m: 不允许拖动（不传递鼠标的拖动事件）</span><br><span class="line">-C: use private colour map</span><br><span class="line">-D: 不显示窗口标题栏（只有远程桌面窗口，没有关闭和最小化按钮）</span><br><span class="line">-K: 窗口切换快捷热键（Alt+Tab）不传递到远程桌面</span><br><span class="line">-S: 标题按钮的大小，个人觉得这个参数很无用，或者我还没弄明白到底什么意思。</span><br><span class="line">-T: 窗口标题</span><br><span class="line">-t: disable use of remote ctrl</span><br><span class="line">-N: 数字键盘同步</span><br><span class="line">-X: 给定另一个窗口的标识，嵌入到另一个窗口</span><br><span class="line">-a: connection colour depth 选择颜色深度</span><br><span class="line">-z: 启用rdp压缩</span><br><span class="line">-x: RDP5 experience (m[odem 28.8], b[roadband], l[an] or hex nr.)</span><br><span class="line">-P: 持久位图缓存</span><br><span class="line">-r: 设备重定向（参数可以重复使用）注：如windows下的mstsc开启串行口、本地磁盘、打印机等</span><br><span class="line">-r comport:COM1=/dev/ttyS0: enable serial redirection of /dev/ttyS0 to COM1 把Linux上的ttyS0映射到远程windows的COM1口</span><br><span class="line">or COM1=/dev/ttyS0,COM2=/dev/ttyS1</span><br><span class="line">-r disk:floppy=/mnt/floppy: enable redirection of /mnt/floppy to &#x27;floppy&#x27; share</span><br><span class="line">-r floppy=/mnt/floppy,cdrom=/mnt/cdrom  把本地的/mnt/floppy文件夹挂载到远程连接的floppy,/mnt/cdrom文件夹挂在到远程桌面的cdrom</span><br><span class="line">-r clientname= 设置本地设备的客户端名称</span><br><span class="line">for redirected disks</span><br><span class="line">-r lptport:LPT1=/dev/lp0: enable parallel redirection of /dev/lp0 to LPT1</span><br><span class="line">or LPT1=/dev/lp0,LPT2=/dev/lp1</span><br><span class="line">-r printer:mydeskjet: enable printer redirection</span><br><span class="line">or mydeskjet=”HP LaserJet IIIP” to enter server driver as well</span><br><span class="line">-r sound：[local[:driver[:device]]|off|remote]: 远程计算机的声音带到本地</span><br><span class="line">available drivers for ‘local’:</span><br><span class="line">alsa: ALSA output driver, default device: default</span><br><span class="line">-r clipboard:[off|PRIMARYCLIPBOARD|CLIPBOARD]: 剪贴板的配置</span><br><span class="line">redirection.</span><br><span class="line">&#x27;PRIMARYCLIPBOARD&#x27; 在本地和远程桌面共享剪贴板</span><br><span class="line">when sending data to server.</span><br><span class="line">‘CLIPBOARD’ looks at only CLIPBOARD.</span><br><span class="line">以下的不是很常用</span><br><span class="line">-r scard[:”Scard Name”=”Alias Name[;Vendor Name]”[,…]]</span><br><span class="line">example: -r scard:”eToken PRO 00 00”=”AKS ifdh 0”</span><br><span class="line">“eToken PRO 00 00” -&gt; Device in Linux/Unix enviroment</span><br><span class="line">“AKS ifdh 0” -&gt; Device shown in Windows enviroment</span><br><span class="line">example: -r scard:”eToken PRO 00 00”=”AKS ifdh 0;AKS”</span><br><span class="line">“eToken PRO 00 00” -&gt; Device in Linux/Unix enviroment</span><br><span class="line">“AKS ifdh 0” -&gt; Device shown in Windows enviroment</span><br><span class="line">“AKS” -&gt; Device vendor name</span><br><span class="line">-0: attach to console 连接到控制台</span><br><span class="line">-4: use RDP version 4 使用RDP 4的版本</span><br><span class="line">-5: use RDP version 5 (default) 默认使用RDP 5的版本</span><br><span class="line">-o: name=value: Adds an additional option to rdesktop.</span><br><span class="line">sc-csp-name Specifies the Crypto Service Provider name which</span><br><span class="line">is used to authenticate the user by smartcard</span><br><span class="line">sc-container-name Specifies the container name, this is usally the username</span><br><span class="line">sc-reader-name Smartcard reader name to use</span><br><span class="line">sc-card-name Specifies the card name of the smartcard to use</span><br></pre></td></tr></table></figure>
-
-<h3 id="常用功能小结及部分参数用法举例"><a href="#常用功能小结及部分参数用法举例" class="headerlink" title="常用功能小结及部分参数用法举例"></a>常用功能小结及部分参数用法举例</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-g: 桌面分辨率（宽x高）</span><br><span class="line">-f: 全屏模式（Ctrl + Alt + Enter 退出全屏模式）</span><br><span class="line">-D: 不显示窗口标题栏（只有远程桌面窗口，没有关闭和最小化按钮）</span><br><span class="line">-T: 窗口标题</span><br><span class="line">-r: 设备重定向</span><br><span class="line">-A: 无缝虚拟应用程序到本地</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>国产OS</category>
-      </categories>
-      <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;Linux&lt;/font&gt;</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求解子集</title>
-    <url>/2020/09/20/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="子集"><a href="#子集" class="headerlink" title="子集"></a>子集</h2><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）</p>
-<p><strong>说明：</strong>解集不能包含重复的子集</p>
-<a id="more"></a>
-
-<p>示例:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">输入: nums = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>],</span><br><span class="line">  [<span class="number">2</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">  [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>迭代</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = [[]]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            res = res + [[i] + num <span class="keyword">for</span> num <span class="keyword">in</span> res]</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-<p>递归（回溯）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span>(<span class="params">self, nums: List[int]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        res = []</span><br><span class="line">        n = len(nums)</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">helper</span>(<span class="params">i, tmp</span>):</span></span><br><span class="line">            res.append(tmp)</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i, n):</span><br><span class="line">                helper(j + <span class="number">1</span>,tmp + [nums[j]] )</span><br><span class="line">        helper(<span class="number">0</span>, [])</span><br><span class="line">        <span class="keyword">return</span> res  </span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Morris算法进行二叉树遍历</title>
-    <url>/2020/09/24/Morris%E7%AE%97%E6%B3%95%E8%BF%9B%E8%A1%8C%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</url>
-    <content><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>二叉树作为计算机中的一个重要的数据结构，在很多领域都会涉及到，而提到二叉树，我们首先想到的就是其3种遍历方式–前序、中序和后序，对于这三种遍历方式，我们很容易通过使用递归或者迭代（<a href="http://blog.csdn.net/yangfeisc/article/details/44497429%EF%BC%89%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%EF%BC%8C%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%BAO(N)%E3%80%82%E4%BD%86%E6%98%AF%E8%BF%99%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E9%83%BD%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A0%86%E6%A0%88%E8%BF%9B%E8%A1%8C%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AD%98%E5%82%A8%EF%BC%8C%E5%8D%B3%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B9%9F%E6%98%AFO(N)%E3%80%82">http://blog.csdn.net/yangfeisc/article/details/44497429）的方式实现，时间复杂度为O(N)。但是这两种实现方式都需要使用堆栈进行节点信息的存储，即空间复杂度也是O(N)。</a></p>
-<a id="more"></a>
-
-<p>但是还有一种更为巧妙的遍历方法，Morris算法，该算法的时间复杂度也是O(N)，但是空间复杂度却能达到最优的O(1)</p>
-<p>树的节点定义如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><h4 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h4><ol>
-<li>当前节点不为空的前提下，将当前节点设置为：cur_node<ol>
-<li>cur_node的左节点left_node存在，找到cur_node节点的左子树的最右叶子节点right_node。</li>
-<li>最右叶子节点right_node的右节点为空的情况下，right_node的右节点指向cur_node，当前节点指向左节点。</li>
-<li>cur_node的左节点left_node不存在，当前cur_node指向当前节点的右节点。</li>
-<li>如果当前节点cur_node存在左节点，并且左节点的右节点是当前节点cur_node，将当前节点的右节点置为None，当前节点指向右节点。</li>
-</ol>
-</li>
-</ol>
-<p>具体实现方式如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findMode</span>(<span class="params">self, root:TreeNode</span>) -&gt; List[int]:</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        cur = root</span><br><span class="line">        <span class="keyword">while</span> cur:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> cur.left:</span><br><span class="line">                res.append(cur.val)</span><br><span class="line">                cur = cur.right</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                temp = cur.left</span><br><span class="line">                <span class="keyword">while</span> temp.right <span class="keyword">and</span> <span class="keyword">not</span> temp.right == cur:</span><br><span class="line">                    temp = temp.right</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> temp.right:</span><br><span class="line">                    temp.right = cur</span><br><span class="line">                    cur = cur.left</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    res.append(cur.val)</span><br><span class="line">                    temp.right = <span class="literal">None</span></span><br><span class="line">                    cur = cur.right</span><br><span class="line">      	<span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>每日一题</category>
-      </categories>
-      <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
       </tags>
   </entry>
 </search>
