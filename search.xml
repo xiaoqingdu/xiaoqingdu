@@ -470,4 +470,31 @@
         <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
       </tags>
   </entry>
+  <entry>
+    <title>传统数据包收发流程</title>
+    <url>/2021/05/30/%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%8C%85%E6%94%B6%E5%8F%91%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="传统的数据包收发流程"><a href="#传统的数据包收发流程" class="headerlink" title="传统的数据包收发流程"></a>传统的数据包收发流程</h2><p>当网卡收到一个数据包之后，通过<strong>DMA</strong>的方式将这个数据包放到接收队列中，接着触发一次硬件中断，收到这个中断通知的程序（操作系统），会为这个数据包创建一个缓冲对象（<code>sk_buff</code>）， 将其拷贝到缓冲对象中。</p>
+<p>这里有几个知识点，<strong>DMA</strong>可以解放<strong>CPU</strong>，让硬件直接通讯，网卡直接把数据放到内存中就不需要<strong>CPU</strong>参与。</p>
+<a id="more"></a>
+
+<p><strong>中断</strong>分为两种，一种是<strong>硬中断</strong>，另外一种是<strong>软中断</strong>。其中<strong>中断</strong>相当于玩游戏过程中，外卖小哥突然来电话告知快餐已送达。必须停止手上的工作来处理中断。</p>
+<p><strong>硬中断</strong>一般是由外部设备，比如：网卡，键盘触发引起。他们让<strong>CPU</strong>停止正在处理的事情转而处理优先级更高的中断程序。</p>
+<p><strong>软中断</strong>是指处理硬件中断服务程序对操作系统内核的中断。</p>
+<p>将上述信息整理解释如下：网卡收到数据包后，不需要<strong>CPU</strong>参与，直接把这个数据包放到内存中的一块特殊的缓冲区中，这个缓冲区是一个环形的，大小有限，如果一直往里面塞数据，很快就会被塞满，所以必须<strong>尽快</strong>处理。于是网卡触发了一个硬件中断告诉<strong>CPU</strong>停止当前工作，<strong>CPU</strong>就会转到网卡驱动程序处理这个数据包，驱动程序将其包装成<code>sk_buff</code>这个系统内核对象。接着网卡驱动触发了一次软件中断，告诉内核数据包已经准备好了，于是内核接收到这个中断，开始解析这个数据包，整个过程如下：</p>
+<p><img src="/2021/05/30/%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%8C%85%E6%94%B6%E5%8F%91%E6%B5%81%E7%A8%8B/myBlog\source_posts\传统数据包收发流程\DMA数据收发流程.jpg" alt="DMA数据收发流程"></p>
+<p>从上面的介绍可以看出，处理简简单单的一个数据包还是很复杂的，<code>linux</code>在2.6之后有一个优化，可以<strong>批量处理</strong>数据包。</p>
+<p>具体流程是先关闭中断，然后等待数据包过来，等到收到<strong>N</strong>个数据包后，就将这些数据包放到内存环形缓冲区中，然后发送一个硬件中断，等处理程序处理完环形缓冲区的数据包后，网卡再打开中断继续接收数据包。</p>
+<p>虽然网卡可以<strong>批量处理</strong>，但是内核解析数据包的效率还是很低。数据包会先到<strong>链路层</strong>，检查数据包的合法性，然后找出上层（也就是IP层）的类型，是<code>IPV4</code>还是<code>IPV6</code>,然后去掉数据包的帧头，帧尾，再交给<strong>网络层</strong>。</p>
+<p><strong>网络层</strong>取出<code>IP</code>头，根据网络包的下一步走向，也就是目标<code>IP</code>地址是否属于本机，来判断是继续转发出去还是自己处理，如果是自己处理就需要再解析，去掉<code>IP</code>头然后交给上层<strong>传输层</strong>。</p>
+<p><strong>传输层</strong>取出<code>TCP</code>或者<code>UDP</code>头，根据<code>&lt;源IP， 源端口， 目标IP， 目标端口&gt;</code>作为标识，找到对应的<code>socket</code>，并把数据拷贝到<code>socket</code>的接收缓冲区中。至此最上层的<strong>应用程序</strong>就可以处理这个数据包了。</p>
+<hr>
+<p><font size="6"><strong>THE END</strong></font></p>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>&lt;font size=&quot;6&quot;&gt;网络&lt;/font&gt;</tag>
+      </tags>
+  </entry>
 </search>
