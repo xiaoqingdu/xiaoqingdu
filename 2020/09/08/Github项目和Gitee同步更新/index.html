@@ -273,7 +273,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -294,36 +294,57 @@
       
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
 <a id="more"></a>
-
 <h3 id="具体操作方法"><a href="#具体操作方法" class="headerlink" title="具体操作方法"></a>具体操作方法</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">name: Sync</span><br><span class="line"></span><br><span class="line">on: [ psuh ]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">    build:</span><br><span class="line">        runs-on: ubuntu-latest</span><br><span class="line">        steps:</span><br><span class="line">        - name: Sync to Gitee</span><br><span class="line">            uses: wearerequired/git-mirror-action@master # 这个地方不需要修改</span><br><span class="line">            env:</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_RSA_PRIVATE_KEY</span><br><span class="line">                SSH_PRIVATE_KEY: $&#123;&#123; secrets.GITEE_RSA_PRIVATE_KEY &#125;&#125;</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 GitHub 源仓库地址</span><br><span class="line">                source-repo: &quot;git@github.com:XXGGG/xxggg.github.io.git&quot;</span><br><span class="line">                # 注意替换为你的 Gitee 目标仓库地址</span><br><span class="line">                destination-repo: &quot;git@gitee.com:XXGGG/XXGGG.git&quot;</span><br><span class="line"></span><br><span class="line">        - name: Build Gitee Pages</span><br><span class="line">            uses: yanglbme/gitee-pages-action@master # 这个地方不需要修改</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 Gitee 用户名</span><br><span class="line">                gitee-username: XXGGG</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_PASSWORD</span><br><span class="line">                gitee-password: $&#123;&#123; secrets.GITEE_PASSWORD &#125;&#125;</span><br><span class="line">                # 注意替换为你的 Gitee 仓库</span><br><span class="line">                gitee-repo: XXGGG/XXGGG</span><br></pre></td></tr></table></figure>
-
-<p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color='HotPink'>settings<code>-&gt;</code>secrets</font><code> 里的</code><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color='HotPink'>GITEE_PASSWORD</font></p>
+<p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color="HotPink">settings<code>-&gt;</code>secrets</font><code>里的</code><font color="HotPink">GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color="HotPink">GITEE_PASSWORD</font></p>
 <ul>
-<li><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>  是私钥</li>
-<li><font color='HotPink'>GITEE_PASSWORD</font> 是你Gitee的账户密码</li>
+<li><font color="HotPink">GITEE_RSA_PRIVATE_KEY</font>  是私钥</li>
+<li><font color="HotPink">GITEE_PASSWORD</font> 是你Gitee的账户密码</li>
 </ul>
-<p><font color='HotPink'>GITEE_RSA_PRIVATE_KEY</font>,<font color='HotPink'>GITEE_PASSWORD</font> 这两个关键字需要在Github项目的<font color='HotPink'>Setting-&gt;Secrets</font>中增加两个这样的关键字，并赋值。</p>
-<h3 id="如何获得私钥公钥"><a href="#如何获得私钥公钥" class="headerlink" title="如何获得私钥公钥"></a>如何获得私钥公钥</h3><blockquote>
-<p>参考文章<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/fenghuibian/article/details/73350890">https://blog.csdn.net/fenghuibian/article/details/73350890</a><br><a target="_blank" rel="noopener" href="https://gitee.com/help/articles/4181#article-header0">https://gitee.com/help/articles/4181#article-header0</a></p>
-</blockquote>
-<h3 id="第一步-生成SSH-Key"><a href="#第一步-生成SSH-Key" class="headerlink" title="第一步  生成SSH Key"></a>第一步  生成SSH Key</h3><p>打开GitBash （windows 下载git后自带）</p>
+<font color="HotPink">GITEE_RSA_PRIVATE_KEY</font>,<font color="HotPink">GITEE_PASSWORD</font> 这两个关键字需要在Github项目的<font color="HotPink">Setting->Secrets</font>中增加两个这样的关键字，并赋值。
+
+### 如何获得私钥公钥
+
+>参考文章
+>https://blog.csdn.net/fenghuibian/article/details/73350890
+>https://gitee.com/help/articles/4181#article-header0
+
+### 第一步  生成SSH Key
+
+打开GitBash （windows 下载git后自带）
+
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;</span><br><span class="line">//(xxxx@xxxx.com 为你的邮箱)</span><br></pre></td></tr></table></figure>
 
-<p>按照提示完成三次回车，即可生成 ssh key。<br>通过查看 ~/.ssh/id_rsa.pub 文件内容，获取到你的公钥，找到id_res.pub这个文件.</p>
-<h3 id="第二步-将公钥添加到Github和Gitee中"><a href="#第二步-将公钥添加到Github和Gitee中" class="headerlink" title="第二步 将公钥添加到Github和Gitee中"></a>第二步 将公钥添加到Github和Gitee中</h3><p>浏览器登上GitHub然后在<font color='HotPink'>settings<code>-&gt;</code>SSH and GPG keys</font>里添加上公钥（码云gitee同理）</p>
-<h3 id="第三步测试是否配置成功"><a href="#第三步测试是否配置成功" class="headerlink" title="第三步测试是否配置成功"></a>第三步测试是否配置成功</h3><p>打开Gitbash。测试Github是否可用</p>
+按照提示完成三次回车，即可生成 ssh key。
+通过查看 ~/.ssh/id_rsa.pub 文件内容，获取到你的公钥，找到id_res.pub这个文件.
+
+### 第二步 将公钥添加到Github和Gitee中
+
+浏览器登上GitHub然后在<font color="HotPink">settings`->`SSH and GPG keys</font>里添加上公钥（码云gitee同理）
+
+### 第三步测试是否配置成功
+
+打开Gitbash。测试Github是否可用
+
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
 
-<p>测试Gitee</p>
+测试Gitee
+
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
 
-<p>若返回 Hi XXX! You’ve successfully authenticated, but (Gitee.com/GitHub.com) does not provide shell access. 内容，则证明添加成功。</p>
-<h3 id="第四步-配置私钥"><a href="#第四步-配置私钥" class="headerlink" title="第四步 配置私钥"></a>第四步 配置私钥</h3><p>在 ~/.ssh目录下有*<strong>id_rsa*** 和*</strong>id_rsa.pub*<strong>两个文件<br>**<em>id_rsa.pub</em></strong>是公钥<br>**<em>id_rsa**</em> 是私钥</p>
-<p>查看私钥 然后把私钥添加到GitHub项目里的<font color='HotPink'><code>settings</code>-&gt;<code>secrets</code></font> 里的<font color='HotPink'><code>GITEE_RSA_PRIVATE_KEY</code></font></p>
+若返回 Hi XXX! You’ve successfully authenticated, but (Gitee.com/GitHub.com) does not provide shell access. 内容，则证明添加成功。
+
+### 第四步 配置私钥
+
+在 ~/.ssh目录下有***id_rsa*** 和***id_rsa.pub***两个文件
+***id_rsa.pub***是公钥
+***id_rsa*** 是私钥
+
+查看私钥 然后把私钥添加到GitHub项目里的<font color="HotPink">`settings`->`secrets`</font> 里的<font color="HotPink">`GITEE_RSA_PRIVATE_KEY`</font>
+
 <blockquote>
 <p>注意：全部都要复制，开头和结尾注意勿遗漏</p>
 </blockquote>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color='HotPink'><code>Actions</code></font>中查看执行结果。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color="HotPink"><code>Actions</code></font>中查看执行结果。</p>
 <blockquote>
 <p>感谢 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app">https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app</a></p>
 </blockquote>
@@ -440,7 +461,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">具体操作方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E7%A7%81%E9%92%A5%E5%85%AC%E9%92%A5"><span class="nav-number">3.</span> <span class="nav-text">如何获得私钥公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E7%94%9F%E6%88%90SSH-Key"><span class="nav-number">4.</span> <span class="nav-text">第一步  生成SSH Key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E5%B0%86%E5%85%AC%E9%92%A5%E6%B7%BB%E5%8A%A0%E5%88%B0Github%E5%92%8CGitee%E4%B8%AD"><span class="nav-number">5.</span> <span class="nav-text">第二步 将公钥添加到Github和Gitee中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E6%B5%8B%E8%AF%95%E6%98%AF%E5%90%A6%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F"><span class="nav-number">6.</span> <span class="nav-text">第三步测试是否配置成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E9%85%8D%E7%BD%AE%E7%A7%81%E9%92%A5"><span class="nav-number">7.</span> <span class="nav-text">第四步 配置私钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">8.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">具体操作方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -456,7 +477,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -469,7 +490,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -505,12 +526,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">22k</span>
+    <span title="站点总字数">23k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">20 分钟</span>
+    <span title="站点阅读时长">21 分钟</span>
 </div>
 
         
@@ -669,6 +690,8 @@
 
 
 
+
+  
 
   
 
