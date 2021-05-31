@@ -16,82 +16,12 @@
 <p>虽然网卡可以<strong>批量处理</strong>，但是内核解析数据包的效率还是很低。数据包会先到<strong>链路层</strong>，检查数据包的合法性，然后找出上层（也就是IP层）的类型，是<code>IPV4</code>还是<code>IPV6</code>,然后去掉数据包的帧头，帧尾，再交给<strong>网络层</strong>。</p>
 <p><strong>网络层</strong>取出<code>IP</code>头，根据网络包的下一步走向，也就是目标<code>IP</code>地址是否属于本机，来判断是继续转发出去还是自己处理，如果是自己处理就需要再解析，去掉<code>IP</code>头然后交给上层<strong>传输层</strong>。</p>
 <p><strong>传输层</strong>取出<code>TCP</code>或者<code>UDP</code>头，根据<code>&lt;源IP， 源端口， 目标IP， 目标端口&gt;</code>作为标识，找到对应的<code>socket</code>，并把数据拷贝到<code>socket</code>的接收缓冲区中。至此最上层的<strong>应用程序</strong>就可以处理这个数据包了。</p>
-<hr>
-<font size="6">**THE END**</font>
-
 ]]></content>
       <categories>
         <category>网络</category>
       </categories>
       <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;网络&lt;/font&gt;</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Github项目与Gitee同步更新</title>
-    <url>/2020/09/08/Github%E9%A1%B9%E7%9B%AE%E5%92%8CGitee%E5%90%8C%E6%AD%A5%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>使用hexo作为个人博客，将个人博客部署到Github或者Gitee中，并开启Pages功能，这样便可以让别人看到自己的个人博客。将博客部署到Github后，每次提交增加新的页面，Github中Pages会自动更新，但是Gitee在每次提交项目后，需要手动更新Pages。同样国内访问Github的速度的确有些慢，Gitee访问速度快，但是每次更新均需要手动更新Pages，这个有点。。。。，本文介绍一种解决办法，用GitHub Actions把代码同步到Gitee</p>
-<a id="more"></a>
-<h3 id="具体操作方法"><a href="#具体操作方法" class="headerlink" title="具体操作方法"></a>具体操作方法</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">name: Sync</span><br><span class="line"></span><br><span class="line">on: [ psuh ]</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">    build:</span><br><span class="line">        runs-on: ubuntu-latest</span><br><span class="line">        steps:</span><br><span class="line">        - name: Sync to Gitee</span><br><span class="line">            uses: wearerequired/git-mirror-action@master # 这个地方不需要修改</span><br><span class="line">            env:</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_RSA_PRIVATE_KEY</span><br><span class="line">                SSH_PRIVATE_KEY: $&#123;&#123; secrets.GITEE_RSA_PRIVATE_KEY &#125;&#125;</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 GitHub 源仓库地址</span><br><span class="line">                source-repo: &quot;git@github.com:XXGGG/xxggg.github.io.git&quot;</span><br><span class="line">                # 注意替换为你的 Gitee 目标仓库地址</span><br><span class="line">                destination-repo: &quot;git@gitee.com:XXGGG/XXGGG.git&quot;</span><br><span class="line"></span><br><span class="line">        - name: Build Gitee Pages</span><br><span class="line">            uses: yanglbme/gitee-pages-action@master # 这个地方不需要修改</span><br><span class="line">            with:</span><br><span class="line">                # 注意替换为你的 Gitee 用户名</span><br><span class="line">                gitee-username: XXGGG</span><br><span class="line">                # 注意在 Settings-&gt;Secrets 配置 GITEE_PASSWORD</span><br><span class="line">                gitee-password: $&#123;&#123; secrets.GITEE_PASSWORD &#125;&#125;</span><br><span class="line">                # 注意替换为你的 Gitee 仓库</span><br><span class="line">                gitee-repo: XXGGG/XXGGG</span><br></pre></td></tr></table></figure>
-<p>这里面最重要的除了简单更换填写你的github跟gitee对应项目地址以外<br>最重要的的就是配置好你GitHub项目里的 <font color="HotPink">settings<code>-&gt;</code>secrets</font><code>里的</code><font color="HotPink">GITEE_RSA_PRIVATE_KEY</font><code>和</code><font color="HotPink">GITEE_PASSWORD</font></p>
-<ul>
-<li><font color="HotPink">GITEE_RSA_PRIVATE_KEY</font>  是私钥</li>
-<li><font color="HotPink">GITEE_PASSWORD</font> 是你Gitee的账户密码</li>
-</ul>
-<font color="HotPink">GITEE_RSA_PRIVATE_KEY</font>,<font color="HotPink">GITEE_PASSWORD</font> 这两个关键字需要在Github项目的<font color="HotPink">Setting->Secrets</font>中增加两个这样的关键字，并赋值。
-
-### 如何获得私钥公钥
-
->参考文章
->https://blog.csdn.net/fenghuibian/article/details/73350890
->https://gitee.com/help/articles/4181#article-header0
-
-### 第一步  生成SSH Key
-
-打开GitBash （windows 下载git后自带）
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@xxxx.com&quot;</span><br><span class="line">//(xxxx@xxxx.com 为你的邮箱)</span><br></pre></td></tr></table></figure>
-
-按照提示完成三次回车，即可生成 ssh key。
-通过查看 ~/.ssh/id_rsa.pub 文件内容，获取到你的公钥，找到id_res.pub这个文件.
-
-### 第二步 将公钥添加到Github和Gitee中
-
-浏览器登上GitHub然后在<font color="HotPink">settings`->`SSH and GPG keys</font>里添加上公钥（码云gitee同理）
-
-### 第三步测试是否配置成功
-
-打开Gitbash。测试Github是否可用
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-测试Gitee
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br></pre></td></tr></table></figure>
-
-若返回 Hi XXX! You’ve successfully authenticated, but (Gitee.com/GitHub.com) does not provide shell access. 内容，则证明添加成功。
-
-### 第四步 配置私钥
-
-在 ~/.ssh目录下有***id_rsa*** 和***id_rsa.pub***两个文件
-***id_rsa.pub***是公钥
-***id_rsa*** 是私钥
-
-查看私钥 然后把私钥添加到GitHub项目里的<font color="HotPink">`settings`->`secrets`</font> 里的<font color="HotPink">`GITEE_RSA_PRIVATE_KEY`</font>
-
-<blockquote>
-<p>注意：全部都要复制，开头和结尾注意勿遗漏</p>
-</blockquote>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>提交项目到Github中，可以在Github项目 <font color="HotPink"><code>Actions</code></font>中查看执行结果。</p>
-<blockquote>
-<p>感谢 <a href="https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app">https://blog.csdn.net/qq_42460209/article/details/108041021?utm_source=app</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>折腾记录</category>
-      </categories>
-      <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;Github&lt;/font&gt;</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -118,7 +48,7 @@
         <category>每日一题</category>
       </categories>
       <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;每日一题&lt;/font&gt;</tag>
+        <tag>每日一题</tag>
       </tags>
   </entry>
   <entry>
@@ -224,13 +154,13 @@
 </blockquote>
 <a id="more"></a>
 <h3 id="二、示例"><a href="#二、示例" class="headerlink" title="二、示例"></a>二、示例</h3><h4 id="1、示例一"><a href="#1、示例一" class="headerlink" title="1、示例一"></a>1、示例一</h4><script type="math/tex; mode=display">
-输入: n = 1\\\\输出: true\\\\解释：2^0 = 1</script><h4 id="2-示例二"><a href="#2-示例二" class="headerlink" title="2. 示例二"></a>2. 示例二</h4><script type="math/tex; mode=display">
-输入：n = 16\\\\
-输出：true\\\\
+输入: n = 1\\输出: true\\解释：2^0 = 1</script><h4 id="2-示例二"><a href="#2-示例二" class="headerlink" title="2. 示例二"></a>2. 示例二</h4><script type="math/tex; mode=display">
+输入：n = 16\\
+输出：true\\
 解释：2^4 = 16</script><h4 id="3-示例三"><a href="#3-示例三" class="headerlink" title="3. 示例三"></a>3. 示例三</h4><script type="math/tex; mode=display">
-输入：n = 3\\\\
+输入：n = 3\\
 输出：false</script><h4 id="4-示例四"><a href="#4-示例四" class="headerlink" title="4.示例四"></a>4.示例四</h4><script type="math/tex; mode=display">
-输入：n = 4\\\\
+输入：n = 4\\
 输出：true</script><h3 id="三、解题思路"><a href="#三、解题思路" class="headerlink" title="三、解题思路"></a>三、解题思路</h3><ul>
 <li>若$n = 2 ^ x$且<code>x</code>为自然数（即 <code>n</code> 为<code>2</code>的幂），则一定满足以下条件：<ol>
 <li>恒有<code>n &amp; (n - 1) == 0</code>, 这是因为：<ul>
@@ -293,7 +223,7 @@
         <category>每日一题</category>
       </categories>
       <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;leetcode&lt;/font&gt;</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -534,7 +464,7 @@
         <category>vue</category>
       </categories>
       <tags>
-        <tag>&lt;font size=&quot;6&quot;&gt;前端&lt;/font&gt;</tag>
+        <tag>前端</tag>
       </tags>
   </entry>
   <entry>
