@@ -543,4 +543,184 @@
         <tag>链表</tag>
       </tags>
   </entry>
+  <entry>
+    <title>网络总结</title>
+    <url>/2021/06/28/%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="网络总结"><a href="#网络总结" class="headerlink" title="网络总结"></a>网络总结</h2><h3 id="一、路由器配置网络"><a href="#一、路由器配置网络" class="headerlink" title="一、路由器配置网络"></a>一、路由器配置网络</h3><ol>
+<li><p>进入特权模式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">Router&gt;</span><span class="bash"> <span class="built_in">enable</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入全局模式</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">Router#</span><span class="bash">config term</span></span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给路由器命名</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">Router(config)#</span><span class="bash">hostname R1</span></span><br><span class="line"><span class="meta">R1(config)#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选中一个接口</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R1(config)#</span><span class="bash">interface GigabitEthernet0/0/0</span></span><br><span class="line"><span class="meta">R1(config-if)#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置一个IP地址以及子网掩码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">R1(config-if)#ip address 192.168.1.1 255.255.255.0 </span><br><span class="line">R1(config-if)#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>激活网口</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R1(config-if)#</span><span class="bash">no shutdown</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置密码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 设置明文密码</span></span><br><span class="line"><span class="meta">R1(config)#</span><span class="bash"><span class="built_in">enable</span> password 123</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置密文密码</span></span><br><span class="line"><span class="meta">R1(config)#</span><span class="bash"><span class="built_in">enable</span> secret 456</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="二、路由器远程登录"><a href="#二、路由器远程登录" class="headerlink" title="二、路由器远程登录"></a>二、路由器远程登录</h3><ol>
+<li><p>首先设定两个路由器，将两个路由器分别设置IP为：<code>192.168.1.1</code>和<code>192.168.1.2</code>,在路由器中ping另外一个路由器的方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2#</span><span class="bash">ping</span></span><br><span class="line">Protocol [ip]: </span><br><span class="line">Target IP address: 192.168.1.1</span><br><span class="line">Repeat count [5]: 5</span><br><span class="line">Datagram size [100]: 100</span><br><span class="line">Timeout in seconds [2]: 2</span><br><span class="line">Extended commands [n]: n</span><br><span class="line">Sweep range of sizes [n]: n</span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending 5, 100-byte ICMP Echos to 192.168.1.1, timeout is 2 seconds:</span><br><span class="line">.!!!!</span><br><span class="line">Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/0 ms</span><br><span class="line"></span><br><span class="line"><span class="meta">R2#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程登录的第一种方式</p>
+<ol>
+<li><p>进入特权模式，设定5个用户登录，设置为无密码登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2#</span><span class="bash">conf term</span></span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line"><span class="meta">R2(config)#</span><span class="bash">line vty 0 4</span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash">no login</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置<code>enable</code>密码，如果需要远程登录，必须设定<code>enable</code>密码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2(config)#</span><span class="bash"><span class="built_in">enable</span> password 123</span></span><br><span class="line"><span class="meta">R2(config)#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从<code>192.168.1.1</code>远程登录<code>192.168.1.2</code>。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R1&gt;</span><span class="bash">telnet 192.168.1.2</span></span><br><span class="line">Trying 192.168.1.2 ...Open</span><br><span class="line"><span class="meta">R2&gt;</span><span class="bash"><span class="built_in">enable</span></span></span><br><span class="line">Password: </span><br><span class="line"><span class="meta">R2#</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>远程登录的第二种方式</p>
+<ol>
+<li><p>设置有密码的登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2(config)#</span><span class="bash">line vty 0 4</span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash">password 456</span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash">login</span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash"><span class="built_in">exit</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录验证</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R1&gt;</span><span class="bash">telnet 192.168.1.2</span></span><br><span class="line">Trying 192.168.1.2 ...Open</span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Password: </span><br><span class="line"><span class="meta">R2&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>远程登录的第三种方式</p>
+<ol>
+<li><p>设置有用户名和密码的登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2(config)#</span><span class="bash">username xiaoqingdu password 789</span></span><br><span class="line"><span class="meta">R2(config)#</span><span class="bash">line vty 0 4</span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash">login <span class="built_in">local</span></span></span><br><span class="line"><span class="meta">R2(config-line)#</span><span class="bash">en</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证登录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">R2&gt;</span><span class="bash">telnet 192.168.1.2 </span></span><br><span class="line">Trying 192.168.1.2 ...Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: xiaoqingdu</span><br><span class="line">Password: </span><br><span class="line"><span class="meta">R2&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="三、二层技术和三层技术在工作中的应用"><a href="#三、二层技术和三层技术在工作中的应用" class="headerlink" title="三、二层技术和三层技术在工作中的应用"></a>三、二层技术和三层技术在工作中的应用</h3><h4 id="1-二层技术"><a href="#1-二层技术" class="headerlink" title="1.二层技术"></a>1.二层技术</h4><p>二层技术通常是指：交换机的交换技术。</p>
+<p>例如：</p>
+<blockquote>
+<ol>
+<li>VLAN （虚拟局域网），隔离广播域</li>
+<li>以太通道（链路聚合，提高带宽，实现冗余备份）</li>
+<li>生成树（防止网络出现环路）</li>
+<li>Q in Q （做VLAN叠加）</li>
+<li>SPAN</li>
+<li>VACL</li>
+<li>PVLAN</li>
+<li>等等</li>
+</ol>
+</blockquote>
+<h4 id="2-三层技术"><a href="#2-三层技术" class="headerlink" title="2.三层技术"></a>2.三层技术</h4><p>例如：</p>
+<blockquote>
+<ol>
+<li>静态路由</li>
+<li>动态路由</li>
+<li>OSPF</li>
+<li>ISIS</li>
+<li>BGP</li>
+<li>EIGRP</li>
+<li>路由策略</li>
+<li>安全</li>
+<li>IP sec</li>
+<li>SDN</li>
+<li>NFV</li>
+<li>SD-WAN</li>
+</ol>
+</blockquote>
+<h3 id="四、网络分类"><a href="#四、网络分类" class="headerlink" title="四、网络分类"></a>四、网络分类</h3><ol>
+<li><p>A类网络</p>
+<blockquote>
+<p>前8位（网络位）+ 后24位（主机位）</p>
+</blockquote>
+</li>
+<li><p>B类网络</p>
+<blockquote>
+<p>前16位（网络位）+ 后16位（主机位）</p>
+</blockquote>
+</li>
+<li><p>C类网络</p>
+<blockquote>
+<p>前24位（网络位）+ 后8位（主机位）</p>
+</blockquote>
+</li>
+<li><p>D类网络</p>
+<blockquote>
+<p>前4位固定为：1110，组播地址。</p>
+</blockquote>
+</li>
+<li><p>E类网络</p>
+<blockquote>
+<p>前四位固定为：1111。作为保留。</p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>网络</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>背包问题</title>
+    <url>/2021/06/10/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h2><p>背包问题是动态规划中非常重要的一类问题，它有很多种变种，但是题目千变万化都离不开一些固定套路。</p>
+<h2 id="背包定义"><a href="#背包定义" class="headerlink" title="背包定义"></a>背包定义</h2><p>首先这里提出一个问题：什么样的问题可以称作背包问题呢？换言之，拿到题目之后，如何透过题目的不同包装形式看到里面背包问题的不变内核呢？我对背包问题定义的理解如下：</p>
+<blockquote>
+<p>给定一个背包容量<code>target</code>，再给定一个数组<code>nums(物品)</code>，能否按照一定方式选取<code>nums</code>中的元素得到<code>target</code>.</p>
+</blockquote>
+<ul>
+<li>注意<ol>
+<li>背包容量<code>target</code>和物品<code>nums</code>的类型可能是数字，也可能是字符串。</li>
+<li><code>target</code>可能是已经给出（显式），也可能是需要我们从题目的信息中挖掘出来（非显式）（常见的非显式<code>target</code>比如<code>sum/2</code>等）</li>
+<li>选取的方式有常见的以下几种：每个元素选取一次，每个元素选取多次，选元素进行排列组合。</li>
+</ol>
+</li>
+</ul>
+<p>对应的背包问题，分别有如下分类。</p>
+<h2 id="背包问题分类"><a href="#背包问题分类" class="headerlink" title="背包问题分类"></a>背包问题分类</h2><p>常见的背包类型主要有以下几种：</p>
+<ol>
+<li>0/1背包问题：每个元素最多选取一次。</li>
+<li>完全背包问题：每个元素可以重复选择。</li>
+<li>组合背包问题：背包中的物品要考虑顺序。</li>
+<li>分组背包问题：不止一个背包，需要遍历每个背包。</li>
+</ol>
+<p>而每个背包问题要求的也是不同的，按照所求问题分类，又可以分为以下几种：</p>
+<ol>
+<li>最值问题：要求最大值，最小值</li>
+<li>存在问题：是否存在i。。。，满足。。。</li>
+<li>组合问题：求所有满足。。。的排列组合。</li>
+</ol>
+<p>因此把背包类型和问题类型结合起来就会出现以下细分的题目类型：</p>
+<ol>
+<li>0/1背包最值问题</li>
+<li>0/1背包存在问题</li>
+<li>0/1背包组合问题</li>
+<li>完全背包最值问题</li>
+<li>完全背包存在问题</li>
+<li>完全背包组合问题</li>
+<li>分组背包最值问题</li>
+<li>分组背包存在问题</li>
+<li>分组背包组合问题</li>
+</ol>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>背包</tag>
+      </tags>
+  </entry>
 </search>
